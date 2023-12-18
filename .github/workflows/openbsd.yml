@@ -114,86 +114,89 @@ jobs:
           if [ -n "\${FAIL_ON_FAULT}" ] && [ -n "\${FAULT}" ]; then exit 1 ; fi
           EOF
 
-  # test:
-  #   name: Tests
-  #   runs-on: ${{ matrix.job.os }}
-  #   timeout-minutes: 90
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       job:
-  #         - { os: ubuntu-22.04 , features: unix }
-  #   env:
-  #     mem: 4096
-  #     SCCACHE_GHA_ENABLED: "true"
-  #     RUSTC_WRAPPER: "sccache"
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #   - uses: Swatinem/rust-cache@v2
-  #   - name: Run sccache-cache
-  #     uses: mozilla-actions/sccache-action@v0.0.3
-  #   - name: Prepare, build and test
-  #     uses: vmactions/freebsd-vm@v1.0.5
-  #     with:
-  #       usesh: true
-  #       sync: rsync
-  #       copyback: false
-  #       prepare: pkg install -y curl gmake sudo
-  #       run: |
-  #         ## Prepare, build, and test
-  #         # implementation modelled after ref: <https://github.com/rust-lang/rustup/pull/2783>
-  #         # * NOTE: All steps need to be run in this block, otherwise, we are operating back on the mac host
-  #         set -e
-  #         #
-  #         # We need a file-descriptor file system to test test_ls::test_ls_io_errors
-  #         mount -t fdescfs fdesc /dev/fd
-  #         #
-  #         TEST_USER=tester
-  #         REPO_NAME=${GITHUB_WORKSPACE##*/}
-  #         WORKSPACE_PARENT="/home/runner/work/${REPO_NAME}"
-  #         WORKSPACE="${WORKSPACE_PARENT}/${REPO_NAME}"
-  #         #
-  #         pw adduser -n ${TEST_USER} -d /root/ -g wheel -c "Coreutils user to build" -w random
-  #         # chown -R ${TEST_USER}:wheel /root/ "${WORKSPACE_PARENT}"/
-  #         chown -R ${TEST_USER}:wheel /root/ "${WORKSPACE_PARENT}"/
-  #         whoami
-  #         #
-  #         # Further work needs to be done in a sudo as we are changing users
-  #         sudo -i -u ${TEST_USER} sh << EOF
-  #         set -e
-  #         whoami
-  #         curl https://sh.rustup.rs -sSf --output rustup.sh
-  #         sh rustup.sh -y --profile=minimal
-  #         . $HOME/.cargo/env
-  #         # Install nextest
-  #         mkdir -p ~/.cargo/bin
-  #         curl -LsSf https://get.nexte.st/latest/freebsd | tar zxf - -C ~/.cargo/bin
-  #         ## Info
-  #         # environment
-  #         echo "## environment"
-  #         echo "CI='${CI}'"
-  #         echo "REPO_NAME='${REPO_NAME}'"
-  #         echo "TEST_USER='${TEST_USER}'"
-  #         echo "WORKSPACE_PARENT='${WORKSPACE_PARENT}'"
-  #         echo "WORKSPACE='${WORKSPACE}'"
-  #         env | sort
-  #         # tooling info
-  #         echo "## tooling info"
-  #         cargo -V
-  #         cargo nextest --version
-  #         rustc -V
-  #         #
-  #         # To ensure that files are cleaned up, we don't want to exit on error
-  #         set +e
-  #         cd "${WORKSPACE}"
-  #         unset FAULT
-  #         cargo build || FAULT=1
-  #         export PATH=~/.cargo/bin:${PATH}
-  #         export RUST_BACKTRACE=1
-  #         export CARGO_TERM_COLOR=always
-  #         if (test -z "\$FAULT"); then cargo nextest run --hide-progress-bar --profile ci --features '${{ matrix.job.features }}' || FAULT=1 ; fi
-  #         if (test -z "\$FAULT"); then cargo nextest run --hide-progress-bar --profile ci --all-features -p uucore || FAULT=1 ; fi
-  #         # Clean to avoid to rsync back the files
-  #         cargo clean
-  #         if (test -n "\$FAULT"); then exit 1 ; fi
-  #         EOF
+  test:
+    name: Tests
+    runs-on: ${{ matrix.job.os }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        job:
+          - { os: ubuntu-22.04 , features: unix }
+    env:
+      mem: 4096
+      SCCACHE_GHA_ENABLED: "true"
+      RUSTC_WRAPPER: "sccache"
+    steps:
+    - uses: actions/checkout@v4
+    - uses: Swatinem/rust-cache@v2
+    - name: Run sccache-cache
+      uses: mozilla-actions/sccache-action@v0.0.3
+    - name: Prepare, build and test
+      uses: vmactions/openbsd-vm@v1.0.4
+      with:
+        usesh: true
+        sync: rsync
+        copyback: false
+        # We need jq to run show-utils.sh and bash to use inline shell string replacement
+        # install rust-1.72.1, rust-rustfmt-1.72.1 and rust-clippy-1.72.1 from OpenBSD 7.4 release
+        prepare: pkg_add -I coreutils curl gmake sudo-1.9.14.2 jq bash rust rust-rustfmt rust-clippy
+        run: |
+          ## Prepare, build, and test
+          # implementation modelled after ref: <https://github.com/rust-lang/rustup/pull/2783>
+          # * NOTE: All steps need to be run in this block, otherwise, we are operating back on the mac host
+          set -e
+          #
+          # We need a file-descriptor file system to test test_ls::test_ls_io_errors
+          mount -t fdescfs fdesc /dev/fd
+          #
+          TEST_USER=tester
+          REPO_NAME=${GITHUB_WORKSPACE##*/}
+          WORKSPACE_PARENT="/home/runner/work/${REPO_NAME}"
+          WORKSPACE="${WORKSPACE_PARENT}/${REPO_NAME}"
+          # Generate random password for user
+          PASSWD=$(encrypt $(openssl rand -base64 12))
+          # Create user for build
+          useradd -d /root/ -g wheel -c "Coreutils user to build" -p ${PASSWD} ${TEST_USER}
+          chown -R ${TEST_USER}:wheel /root/ "${WORKSPACE_PARENT}"/
+          whoami
+          #
+          # Further work needs to be done in a sudo as we are changing users
+          sudo -i -u ${TEST_USER} sh << EOF
+          set -e
+          whoami
+          # Increase the number of file descriptors - See https://github.com/rust-lang/cargo/issues/11435
+          ulimit -n 1024
+          # TODO
+          # Install nextest
+          mkdir -p ~/.cargo/bin
+          curl -LsSf https://get.nexte.st/latest/freebsd | tar zxf - -C ~/.cargo/bin
+          ## Info
+          # environment
+          echo "## environment"
+          echo "CI='${CI}'"
+          echo "REPO_NAME='${REPO_NAME}'"
+          echo "TEST_USER='${TEST_USER}'"
+          echo "WORKSPACE_PARENT='${WORKSPACE_PARENT}'"
+          echo "WORKSPACE='${WORKSPACE}'"
+          env | sort
+          # tooling info
+          echo "## tooling info"
+          cargo -V
+          cargo nextest --version
+          rustc -V
+          #
+          # To ensure that files are cleaned up, we don't want to exit on error
+          set +e
+          cd "${WORKSPACE}"
+          unset FAULT
+          cargo build || FAULT=1
+          export PATH=~/.cargo/bin:${PATH}
+          export RUST_BACKTRACE=1
+          export CARGO_TERM_COLOR=always
+          if (test -z "\$FAULT"); then cargo nextest run --hide-progress-bar --profile ci --features '${{ matrix.job.features }}' || FAULT=1 ; fi
+          if (test -z "\$FAULT"); then cargo nextest run --hide-progress-bar --profile ci --all-features -p uucore || FAULT=1 ; fi
+          # Clean to avoid to rsync back the files
+          cargo clean
+          if (test -n "\$FAULT"); then exit 1 ; fi
+          EOF
