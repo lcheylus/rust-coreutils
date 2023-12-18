@@ -46,7 +46,7 @@ jobs:
         copyback: false
         # We need jq to run show-utils.sh and bash to use inline shell string replacement
         # install rust-1.72.1, rust-rustfmt-1.72.1 and rust-clippy-1.72.1 from OpenBSD 7.4 release
-        prepare: pkg_add -I curl sudo-1.9.14.2 jq bash rust rust-rustfmt rust-clippy
+        prepare: pkg_add -I coreutils curl sudo-1.9.14.2 jq bash rust rust-rustfmt rust-clippy
         run: |
           ## Prepare, build, and test
           # implementation modelled after ref: <https://github.com/rust-lang/rustup/pull/2783>
