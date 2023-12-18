@@ -68,6 +68,8 @@ jobs:
           sudo -i -u ${TEST_USER} bash << EOF
           set -e
           whoami
+          # Increase the number of file descriptors - See https://github.com/rust-lang/cargo/issues/11435
+          ulimit -n 1024
           ## VARs setup
           cd "${WORKSPACE}"
           unset FAIL_ON_FAULT ; case '${{ env.STYLE_FAIL_ON_FAULT }}' in
