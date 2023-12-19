@@ -200,4 +200,4 @@ jobs:
           # # Clean to avoid to rsync back the files
           # cargo clean
           # if (test -n "\$FAULT"); then exit 1 ; fi
-          # EOF
+          EOF
