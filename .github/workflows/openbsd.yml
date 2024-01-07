@@ -39,7 +39,7 @@ jobs:
   #   - name: Run sccache-cache
   #     uses: mozilla-actions/sccache-action@v0.0.3
   #   - name: Prepare, build and test
-  #     uses: vmactions/openbsd-vm@v1.0.4
+  #     uses: vmactions/openbsd-vm@v1.0.6
   #     with:
   #       usesh: true
   #       sync: rsync
@@ -135,7 +135,7 @@ jobs:
     - name: Run sccache-cache
       uses: mozilla-actions/sccache-action@v0.0.3
     - name: Prepare, build and test
-      uses: vmactions/openbsd-vm@v1.0.4
+      uses: vmactions/openbsd-vm@v1.0.6
       with:
         usesh: true
         sync: rsync
@@ -172,10 +172,11 @@ jobs:
           whoami
           # Increase the number of file descriptors - See https://github.com/rust-lang/cargo/issues/11435
           ulimit -n 1024
-          # Build/Install nextest - binary not available for OpenBSD
-          # mkdir -p ~/.cargo/bin
-          # curl -LsSf https://get.nexte.st/latest/freebsd | tar zxf - -C ~/.cargo/bin
-          cargo install cargo-nextest --locked
+          # Install nextest latest version from lcheylus/cargo-nextest-openbsd GH repository
+          mkdir -p ~/.cargo/bin
+          LATEST_NEXTEST_URL=$(curl -s https://api.github.com/repos/lcheylus/cargo-nextest-openbsd/releases/latest | grep 'download_url' | cut -d\" -f4)
+          echo "Latest cargo-nextest version for OpenBSD - URL archive = '${LATEST_NEXTEST_URL}'"
+          curl -LsSf  ${LATEST_NEXTEST_URL} | tar zxf - -C ~/.cargo/bin
           ## Info
           # environment
           echo "## environment"
@@ -187,9 +188,9 @@ jobs:
           env | sort
           # tooling info
           echo "## tooling info"
+          rustc -V
           cargo -V
           cargo nextest --version
-          rustc -V
           #
           # To ensure that files are cleaned up, we don't want to exit on error
           # set +e
