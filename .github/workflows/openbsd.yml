@@ -152,9 +152,9 @@ jobs:
           #
           set -e
 
-          REPO_NAME=${GITHUB_WORKSPACE##*/}
-          WORKSPACE_PARENT="/home/runner/work/${REPO_NAME}"
-          WORKSPACE="${WORKSPACE_PARENT}/${REPO_NAME}"
+          export REPO_NAME=${GITHUB_WORKSPACE##*/}
+          export WORKSPACE_PARENT="/home/runner/work/${REPO_NAME}"
+          export WORKSPACE="${WORKSPACE_PARENT}/${REPO_NAME}"
 
           # Generate random password for user
           PASSWD=$(encrypt $(openssl rand -base64 12))
