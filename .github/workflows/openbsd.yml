@@ -126,16 +126,16 @@ jobs:
       mem: 4096
     steps:
     - uses: actions/checkout@v4
-    - name: Get URL for cargo-nextest latest release
-      run: |
-        sudo apt-get install -y curl
-        LATEST_NEXTEST_URL=$(curl -sLf https://api.github.com/repos/lcheylus/cargo-nextest-openbsd/releases/latest | grep 'download_url' | cut -d\" -f4)
-        echo "LATEST_NEXTEST_URL=${LATEST_NEXTEST_URL}"
-        echo "LATEST_NEXTEST_URL=${LATEST_NEXTEST_URL}" >> $GITHUB_ENV
+    # - name: Get URL for cargo-nextest latest release
+    #   run: |
+    #     sudo apt-get install -y curl
+    #     LATEST_NEXTEST_URL=$(curl -sLf https://api.github.com/repos/lcheylus/cargo-nextest-openbsd/releases/latest | grep 'download_url' | cut -d\" -f4)
+    #     echo "LATEST_NEXTEST_URL=${LATEST_NEXTEST_URL}"
+    #     echo "LATEST_NEXTEST_URL=${LATEST_NEXTEST_URL}" >> $GITHUB_ENV
     - name: Prepare, build and test
       uses: vmactions/openbsd-vm@v1.0.6
       with:
-        envs: 'LATEST_NEXTEST_URL'
+        # envs: 'LATEST_NEXTEST_URL'
         usesh: true
         sync: rsync
         copyback: false
