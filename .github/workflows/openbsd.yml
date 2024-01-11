@@ -154,12 +154,12 @@ jobs:
           # Generate random password for user
           PASSWD=$(encrypt $(openssl rand -base64 12))
 
-          echo "========="
-          echo "create non-root user and log into it"
+          echo "## whoami"
+          whoami
 
+          echo "## create non-root user and log into it"
           useradd -d "${GITHUB_WORKSPACE}" -g wheel -c "Coreutils user for tests" -s $(which bash) -p ${PASSWD} tester
           chown -R tester:wheel "${GITHUB_WORKSPACE}"/
-          whoami
 
           # Further work needs to be done in a sudo as we are changing user
           sudo -i -u tester bash ci/openbsd_tests.sh

@@ -11,23 +11,13 @@ if [ "root" == "$(whoami)" ]; then
     exit 1;
 fi
 
-echo "## whoami"
-whoami
-
 # Increase the number of file descriptors - See https://github.com/rust-lang/cargo/issues/11435
 ulimit -n 1024
-
-# Install nextest latest version from lcheylus/cargo-nextest-openbsd GH repository
-mkdir -p ~/.cargo/bin
-LATEST_NEXTEST_URL=$(curl -sLf https://api.github.com/repos/lcheylus/cargo-nextest-openbsd/releases/latest | grep 'download_url' | cut -d\" -f4)
-echo "Latest cargo-nextest version for OpenBSD - URL archive = '${LATEST_NEXTEST_URL}'"
-curl -LsSf "${LATEST_NEXTEST_URL}" | tar zxf - -C ~/.cargo/bin
-ls -l ~/.cargo/bin
 
 ## Info
 # user info
 echo "## user infos"
-userinfo $(id -un)
+userinfo $(id -u)
 
 # environment
 echo "## environment"
@@ -37,6 +27,13 @@ echo "TEST_USER='${TEST_USER}'"
 echo "WORKSPACE_PARENT='${WORKSPACE_PARENT}'"
 echo "WORKSPACE='${WORKSPACE}'"
 env | sort
+
+# Install nextest latest version from lcheylus/cargo-nextest-openbsd GH repository
+mkdir -p ~/.cargo/bin
+LATEST_NEXTEST_URL=$(curl -sLf https://api.github.com/repos/lcheylus/cargo-nextest-openbsd/releases/latest | grep 'download_url' | cut -d\" -f4)
+echo "Latest cargo-nextest version for OpenBSD - URL archive = '${LATEST_NEXTEST_URL}'"
+curl -LsSf "${LATEST_NEXTEST_URL}" | tar zxf - -C ~/.cargo/bin
+ls -l ~/.cargo/bin
 
 # tooling info
 printf "\n## tooling info\n"
