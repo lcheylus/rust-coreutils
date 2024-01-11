@@ -162,4 +162,4 @@ jobs:
           whoami
 
           # Further work needs to be done in a sudo as we are changing user
-          sudo -u tester bash ci/openbsd_tests.sh
+          sudo -i -u tester bash ci/openbsd_tests.sh
