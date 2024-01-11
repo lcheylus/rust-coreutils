@@ -34,7 +34,7 @@ LATEST_NEXTEST_URL=$(curl -sLf https://api.github.com/repos/lcheylus/cargo-nexte
 echo "Latest cargo-nextest version for OpenBSD - URL archive = '${LATEST_NEXTEST_URL}'"
 
 curl -LsSf "${LATEST_NEXTEST_URL}" | tar zxf - -C "${HOME}"/.cargo/bin
-printf "# ls -l %s/.cargo/bin" "${HOME}"
+printf "# ls -l %s/.cargo/bin\n" "${HOME}"
 ls -l "${HOME}"/.cargo/bin
 
 # tooling info
