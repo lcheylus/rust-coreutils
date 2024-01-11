@@ -23,17 +23,17 @@ userinfo $(id -u)
 echo "## environment"
 echo "CI='${CI}'"
 echo "REPO_NAME='${REPO_NAME}'"
-echo "TEST_USER='${TEST_USER}'"
 echo "WORKSPACE_PARENT='${WORKSPACE_PARENT}'"
 echo "WORKSPACE='${WORKSPACE}'"
 env | sort
 
 # Install nextest latest version from lcheylus/cargo-nextest-openbsd GH repository
-mkdir -p ~/.cargo/bin
+
+mkdir -p "${WORKSPACE}"/.cargo/bin
 LATEST_NEXTEST_URL=$(curl -sLf https://api.github.com/repos/lcheylus/cargo-nextest-openbsd/releases/latest | grep 'download_url' | cut -d\" -f4)
 echo "Latest cargo-nextest version for OpenBSD - URL archive = '${LATEST_NEXTEST_URL}'"
-curl -LsSf "${LATEST_NEXTEST_URL}" | tar zxf - -C ~/.cargo/bin
-ls -l ~/.cargo/bin
+curl -LsSf "${LATEST_NEXTEST_URL}" | tar zxf - -C "${WORKSPACE}"/.cargo/bin
+ls -l "${WORKSPACE}"/.cargo/bin
 
 # tooling info
 printf "\n## tooling info\n"
