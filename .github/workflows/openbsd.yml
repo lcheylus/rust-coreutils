@@ -157,8 +157,8 @@ jobs:
           echo "========="
           echo "create non-root user and log into it"
 
-          useradd -d /root/ -g wheel -c "Coreutils user for tests" -s $(which bash) -p ${PASSWD} tester
-          chown -R tester:wheel /root/ .
+          useradd -d "${GITHUB_WORKSPACE}" -g wheel -c "Coreutils user for tests" -s $(which bash) -p ${PASSWD} tester
+          chown -R tester:wheel "${GITHUB_WORKSPACE}"/
           whoami
 
           # Further work needs to be done in a sudo as we are changing user
