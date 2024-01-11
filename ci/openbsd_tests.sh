@@ -25,6 +25,10 @@ curl -LsSf "${LATEST_NEXTEST_URL}" | tar zxf - -C ~/.cargo/bin
 ls -l ~/.cargo/bin
 
 ## Info
+# user info
+echo "## user infos"
+userinfo $(id -un)
+
 # environment
 echo "## environment"
 echo "CI='${CI}'"
