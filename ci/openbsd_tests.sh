@@ -28,12 +28,13 @@ echo "WORKSPACE='${WORKSPACE}'"
 env | sort
 
 # Install nextest latest version from lcheylus/cargo-nextest-openbsd GH repository
+mkdir -p "${HOME}"/.cargo/bin
 
-mkdir -p "${WORKSPACE}"/.cargo/bin
 LATEST_NEXTEST_URL=$(curl -sLf https://api.github.com/repos/lcheylus/cargo-nextest-openbsd/releases/latest | grep 'download_url' | cut -d\" -f4)
 echo "Latest cargo-nextest version for OpenBSD - URL archive = '${LATEST_NEXTEST_URL}'"
-curl -LsSf "${LATEST_NEXTEST_URL}" | tar zxf - -C /root/.cargo/bin
-ls -l "${WORKSPACE}"/.cargo/bin
+
+curl -LsSf "${LATEST_NEXTEST_URL}" | tar zxf - -C "${HOME}"/.cargo/bin
+ls -l "${HOME}"/.cargo/bin
 
 # tooling info
 printf "\n## tooling info\n"
