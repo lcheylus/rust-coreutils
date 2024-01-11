@@ -6,7 +6,10 @@
 set -e
 
 # First, we check that this script is not run as root because it would fail tests.
-if [ "root" == "$(whoami)" ]; then exit 1; fi
+if [ "root" == "$(whoami)" ]; then
+    echo "ERROR: don't run this script as root"
+    exit 1;
+fi
 
 echo "## whoami"
 whoami

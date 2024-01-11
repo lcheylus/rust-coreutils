@@ -144,4 +144,22 @@ jobs:
         prepare: |
           pkg_add -I coreutils curl gmake sudo-1.9.14.2 jq bash
           pkg_add -I rust rust-rustfmt rust-clippy zstd
-        run: bash ci/openbsd_tests.sh
+        run: |
+          # Code inspired from rustup project https://github.com/rust-lang/rustup/blob/master/.github/workflows/ci.yaml
+          #
+          # We need a file-descriptor file system to test test_ls::test_ls_io_errors
+          # mount -t fdescfs fdesc /dev/fd
+          #
+
+          # Generate random password for user
+          PASSWD=$(encrypt $(openssl rand -base64 12))
+
+          echo "========="
+          echo "create non-root user and log into it"
+
+          useradd -d /root/ -g wheel -c "Coreutils user for tests" -s $(which bash) -p ${PASSWD} tester
+          chown -R tester:wheel /root/ .
+          whoami
+
+          # Further work needs to be done in a sudo as we are changing user
+          sudo -u tester bash ci/openbsd_tests.sh
