@@ -47,13 +47,13 @@ cargo nextest --version
 # set +e
 # cd "${WORKSPACE}"
 # unset FAULT
+# export CARGO_TERM_COLOR=always
 # cargo build || FAULT=1
 # export PATH=~/.cargo/bin:${PATH}
 # export RUST_BACKTRACE=1
-# export CARGO_TERM_COLOR=always
-# if (test -z "\$FAULT"); then cargo nextest run --hide-progress-bar --profile ci --features '${{ matrix.job.features }}' || FAULT=1 ; fi
-# if (test -z "\$FAULT"); then cargo nextest run --hide-progress-bar --profile ci --all-features -p uucore || FAULT=1 ; fi
+# if (test -z "$FAULT"); then cargo nextest run --hide-progress-bar --profile ci --features '${FEATURES}' || FAULT=1 ; fi
+# if (test -z "$FAULT"); then cargo nextest run --hide-progress-bar --profile ci --all-features -p uucore || FAULT=1 ; fi
 # # Clean to avoid to rsync back the files
 # cargo clean
-# if (test -n "\$FAULT"); then exit 1 ; fi
+# if (test -n "$FAULT"); then exit 1 ; fi
 
