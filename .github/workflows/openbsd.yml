@@ -22,48 +22,48 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
-  # style:
-  #   name: Style and Lint
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 90
-  #   strategy:
-  #     fail-fast: false
-  #     # matrix:
-  #     #   job:
-  #     #     - { os: ubuntu-latest , features: unix }
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #
-  #   - name: Prepare, build and test
-  #     uses: vmactions/openbsd-vm@v1.0.6
-  #     with:
-  #       envs: "STYLE_FAIL_ON_FAULT FEATURES"
-  #       usesh: true
-  #       sync: rsync
-  #       copyback: false
-  #       # We need jq to run show-utils.sh and bash to use inline shell string replacement
-  #       # install rust, rust-rustfmt and rust-clippy (version 1.72.1) from OpenBSD 7.4 release
-  #       prepare: |
-  #         pkg_add -I coreutils curl sudo-1.9.14.2 jq bash
-  #         pkg_add -I rust rust-rustfmt rust-clippy
-  #       run: |
-  #         # Code inspired from rustup project https://github.com/rust-lang/rustup/blob/master/.github/workflows/ci.yaml
-  #         export REPO_NAME=${GITHUB_WORKSPACE##*/}
-  #         export WORKSPACE_PARENT="/home/runner/work/${REPO_NAME}"
-  #         export WORKSPACE="${WORKSPACE_PARENT}/${REPO_NAME}"
-  #
-  #         # Generate random password for user
-  #         PASSWD=$(encrypt $(openssl rand -base64 12))
-  #
-  #         echo "## whoami"
-  #         whoami
-  #
-  #         echo "## create non-root user and log into it"
-  #         useradd -d "/root" -g wheel -c "Coreutils user for tests" -s $(which bash) -p ${PASSWD} tester
-  #         chown -R tester:wheel /root/ "${WORKSPACE_PARENT}"/
-  #
-  #         # Further work needs to be done in a sudo as we are changing user
-  #         sudo -E -u tester bash ci/openbsd_style_lint.sh
+  style:
+    name: Style and Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      # matrix:
+      #   job:
+      #     - { os: ubuntu-latest , features: unix }
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Prepare, build and test
+      uses: vmactions/openbsd-vm@v1.0.6
+      with:
+        envs: "STYLE_FAIL_ON_FAULT FEATURES"
+        usesh: true
+        sync: rsync
+        copyback: false
+        # We need jq to run show-utils.sh and bash to use inline shell string replacement
+        # install rust, rust-rustfmt and rust-clippy (version 1.72.1) from OpenBSD 7.4 release
+        prepare: |
+          pkg_add -I coreutils curl sudo-1.9.14.2 jq bash
+          pkg_add -I rust rust-rustfmt rust-clippy
+        run: |
+          # Code inspired from rustup project https://github.com/rust-lang/rustup/blob/master/.github/workflows/ci.yaml
+          export REPO_NAME=${GITHUB_WORKSPACE##*/}
+          export WORKSPACE_PARENT="/home/runner/work/${REPO_NAME}"
+          export WORKSPACE="${WORKSPACE_PARENT}/${REPO_NAME}"
+
+          # Generate random password for user
+          PASSWD=$(encrypt $(openssl rand -base64 12))
+
+          echo "## whoami"
+          whoami
+
+          echo "## create non-root user and log into it"
+          useradd -d "/root" -g wheel -c "Coreutils user for tests" -s $(which bash) -p ${PASSWD} tester
+          chown -R tester:wheel /root/ "${WORKSPACE_PARENT}"/
+
+          # Further work needs to be done in a sudo as we are changing user
+          sudo -E -u tester bash ci/openbsd_style_lint.sh
 
   test:
     name: Tests
@@ -78,6 +78,7 @@ jobs:
     - name: Prepare, build and test
       uses: vmactions/openbsd-vm@v1.0.6
       with:
+        envs: "STYLE_FAIL_ON_FAULT FEATURES"
         usesh: true
         sync: rsync
         copyback: false
