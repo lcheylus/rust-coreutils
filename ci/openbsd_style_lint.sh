@@ -56,7 +56,7 @@ set +e
 unset FAULT
 
 ## cargo fmt testing
-echo "## cargo fmt testing"
+printf "\n## cargo fmt testing\n"
 
 # * convert any errors/warnings to GHA UI annotations; ref: <https://help.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-a-warning-message>
 S=$(cargo fmt -- --check) && printf "%s\n" "$S" || {
