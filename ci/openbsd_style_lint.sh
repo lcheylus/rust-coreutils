@@ -33,7 +33,7 @@ esac;
 FAULT_PREFIX=$(echo "${FAULT_TYPE}" | tr '[:lower:]' '[:upper:]')
 
 # determine sub-crate utility list
-UTILITY_LIST="$(./util/show-utils.sh --features ${FEATURES})"
+UTILITY_LIST="$(./util/show-utils.sh --features "${FEATURES}")"
 CARGO_UTILITY_LIST_OPTIONS="$(for u in ${UTILITY_LIST}; do echo -n "-puu_${u} "; done;)"
 
 # environment
@@ -57,6 +57,7 @@ unset FAULT
 
 ## cargo fmt testing
 echo "## cargo fmt testing"
+
 # * convert any errors/warnings to GHA UI annotations; ref: <https://help.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-a-warning-message>
 S=$(cargo fmt -- --check) && printf "%s\n" "$S" || {
     printf "%s\n" "$S"
@@ -68,7 +69,7 @@ S=$(cargo fmt -- --check) && printf "%s\n" "$S" || {
 if [ -z "${FAULT}" ]; then
     echo "## cargo clippy lint testing"
     # * convert any warnings to GHA UI annotations; ref: <https://help.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-a-warning-message>
-    S=$(cargo clippy --all-targets ${CARGO_UTILITY_LIST_OPTIONS} -- -W clippy::manual_string_new -D warnings 2>&1) && printf "%s\n" "$S" || {
+    S=$(cargo clippy --all-targets "${CARGO_UTILITY_LIST_OPTIONS}" -- -W clippy::manual_string_new -D warnings 2>&1) && printf "%s\n" "$S" || {
         printf "%s\n" "$S"
         printf "%s" "$S" | sed -E -n -e '/^error:/{' -e "N; s/^error:[[:space:]]+(.*)\\n[[:space:]]+-->[[:space:]]+(.*):([0-9]+):([0-9]+).*$/::${FAULT_TYPE} file=\2,line=\3,col=\4::${FAULT_PREFIX}: \`cargo clippy\`: \1 (file:'\2', line:\3)/p;" -e '}'
         FAULT=true
