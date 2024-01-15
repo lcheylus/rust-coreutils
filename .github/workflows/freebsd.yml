@@ -162,3 +162,8 @@ jobs:
 
           # Change ownership for copyback files from VM to host
           chown -R root:wheel /root/ "${WORKSPACE_PARENT}"/
+
+    - name: Stats for sccache
+      run: |
+        echo "# sscache stats"
+        cat sccache-stats.txt
