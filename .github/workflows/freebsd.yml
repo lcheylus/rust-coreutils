@@ -59,8 +59,8 @@ jobs:
         echo "## rustc version for Ubuntu runner"
         rustc -vV
 
-  #   - name: Run sccache-cache
-  #     uses: mozilla-actions/sccache-action@v0.0.3
+    # - name: Run sccache-cache
+    #   uses: mozilla-actions/sccache-action@v0.0.3
 
     - name: Prepare, style and lint
       uses: vmactions/freebsd-vm@v1.0.5
@@ -100,8 +100,8 @@ jobs:
       fail-fast: false
     env:
       mem: 4096
-      # SCCACHE_GHA_ENABLED: "true"
-      # RUSTC_WRAPPER: "sccache"
+      SCCACHE_GHA_ENABLED: "true"
+      RUSTC_WRAPPER: "sccache"
 
     steps:
     - uses: actions/checkout@v4
@@ -128,8 +128,8 @@ jobs:
         echo "## rustc version for Ubuntu runner"
         rustc -vV
 
-    # - name: Run sccache-cache
-    #   uses: mozilla-actions/sccache-action@v0.0.3
+    - name: Run sccache-cache
+      uses: mozilla-actions/sccache-action@v0.0.3
 
     - name: Prepare, build and test
       uses: vmactions/freebsd-vm@v1.0.5
@@ -137,8 +137,8 @@ jobs:
         usesh: true
         sync: rsync
         copyback: true
-        envs: "FEATURES"
-        prepare: pkg install -y curl sudo bash
+        envs: "FEATURES SCCACHE_GHA_ENABLED RUSTC_WRAPPER ACTIONS_CACHE_URL ACTIONS_RUNTIME_TOKEN"
+        prepare: pkg install -y curl sudo bash sccache
         run: |
           # Code inspired from rustup project https://github.com/rust-lang/rustup/blob/master/.github/workflows/ci.yaml
           # NOTE: All steps need to be run in this block, otherwise, we are operating back on the Ubuntu host
