@@ -26,6 +26,7 @@ rm rustup.sh
 cd "${WORKSPACE}"
 
 unset FAIL_ON_FAULT
+
 case "${STYLE_FAIL_ON_FAULT}" in
 ''|0|f|false|n|no|off)
     FAULT_TYPE=warning ;;
@@ -55,8 +56,6 @@ printf "\n## tooling info\n"
 rustc -V
 cargo -V
 
-# To ensure that files are cleaned up, we don't want to exit on error
-set +e
 unset FAULT
 
 ## cargo fmt testing
@@ -79,9 +78,6 @@ if [ -z "${FAULT}" ]; then
         FAULT=true
     }
 fi
-
-# Clean to avoid to rsync back the files
-# cargo clean
 
 if [ -n "${FAIL_ON_FAULT}" ] && [ -n "${FAULT}" ]; then
     exit 1
