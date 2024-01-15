@@ -23,6 +23,7 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
+  # Style and Lint job
   style:
     name: Style and Lint
     runs-on: ${{ matrix.job.os }}
@@ -32,9 +33,10 @@ jobs:
       matrix:
         job:
           - { os: ubuntu-22.04 , features: unix }
-    env:
-      SCCACHE_GHA_ENABLED: "true"
-      RUSTC_WRAPPER: "sccache"
+    # env:
+    #   SCCACHE_GHA_ENABLED: "true"
+    #   RUSTC_WRAPPER: "sccache"
+
     steps:
     - uses: actions/checkout@v4
 
@@ -50,6 +52,8 @@ jobs:
     # Action for Rust cache (copy to/from VM via copyback)
     - name: Configure Rust cache
       uses: Swatinem/rust-cache@v2
+      with:
+        prefix-key: "v0-rust-freebsd"
 
     # Restore original rustc binary
     - name: Restore rustc binary
@@ -90,7 +94,7 @@ jobs:
           # Change ownership for copyback files from VM to host
           chown -R root:wheel /root/ "${WORKSPACE_PARENT}"/
 
-  #
+  # Tests job
   # test:
   #   name: Tests
   #   runs-on: ${{ matrix.job.os }}
