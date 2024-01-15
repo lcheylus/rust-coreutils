@@ -58,7 +58,7 @@ jobs:
     - name: Prepare, style and lint
       uses: vmactions/freebsd-vm@v1.0.5
       with:
-        env: "STYLE_FAIL_ON_FAULT"
+        envs: "STYLE_FAIL_ON_FAULT"
         usesh: true
         sync: rsync
         copyback: true
@@ -133,7 +133,7 @@ jobs:
         usesh: true
         sync: rsync
         copyback: true
-        prepare: pkg install -y curl gmake sudo
+        prepare: pkg install -y curl sudo bash
         run: |
           # Code inspired from rustup project https://github.com/rust-lang/rustup/blob/master/.github/workflows/ci.yaml
           # NOTE: All steps need to be run in this block, otherwise, we are operating back on the Ubuntu host
