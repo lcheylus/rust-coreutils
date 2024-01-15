@@ -75,7 +75,10 @@ jobs:
           whoami
 
           # Further work needs to be done in a sudo as we are changing users
-          sudo -E -u tester bash ci/freebsd_style_lint.sh
+          sudo -E -u ${TEST_USER} bash ci/freebsd_style_lint.sh
+
+          # Change ownership for copyback files from VM to host
+          chown -R root:wheel /root/ "${WORKSPACE_PARENT}"/
 
   #
   # test:
