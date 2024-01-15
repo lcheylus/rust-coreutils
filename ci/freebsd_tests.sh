@@ -58,7 +58,7 @@ if test -z "$FAULT"; then
 fi
 
 # Get sccache stats (Rust cache)
-sccache --show-stats > "${HOME}/sccache-stats.txt" 2>&1
+sccache --show-stats > "${WORKSPACE}/sccache-stats.txt" 2>&1
 
 if test -n "$FAULT"; then
     exit 1
