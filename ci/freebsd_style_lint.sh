@@ -57,6 +57,7 @@ rustc -V
 cargo -V
 
 unset FAULT
+export CARGO_TERM_COLOR=always
 
 ## cargo fmt testing
 printf "\n## cargo fmt testing\n"
