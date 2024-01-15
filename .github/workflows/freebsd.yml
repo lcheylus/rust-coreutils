@@ -42,7 +42,8 @@ jobs:
     - name: Configure Rust cache
       uses: Swatinem/rust-cache@v2
       with:
-        prefix-key: "v0-rust-freebsd"
+        # prefix-key: "v0-rust-freebsd"
+        shared-key: "freebsd"
 
     # Restore original rustc binary
     - name: Restore rustc binary
