@@ -57,9 +57,8 @@ if test -z "$FAULT"; then
     cargo nextest run --hide-progress-bar --profile ci --all-features -p uucore || FAULT=1
 fi
 
-# Display sccache stats (Rust cache)
-echo "## sccache stats"
-sccache --show-stats
+# Get sccache stats (Rust cache)
+sccache --show-stats > "${HOME}/sccache-stats.txt" 2>&1
 
 if test -n "$FAULT"; then
     exit 1
