@@ -39,7 +39,7 @@ jobs:
     - uses: actions/checkout@v4
 
     # Get rustc version (stable) for FreeBSD with fake script
-    # Neeed for rust-cache action to set cache key
+    # Needed for rust-cache action to set cache key
     - name: Get rust version for FreeBSD
       run: |
         sudo cp /home/runner/.cargo/bin/rustc rustc.orig
@@ -53,7 +53,7 @@ jobs:
       with:
         prefix-key: "v0-rust-freebsd"
 
-    # Restore original rustc binary
+    # Restore original rustc binary on Ubuntu runner
     - name: Restore rustc binary
       run: |
         mv rustc.orig /home/runner/.cargo/bin/rustc
@@ -108,7 +108,7 @@ jobs:
     - uses: actions/checkout@v4
 
     # Get rustc version (stable) for FreeBSD with fake script
-    # Neeed for rust-cache action to set cache key
+    # Needed for rust-cache action to set cache key
     - name: Get rust version for FreeBSD
       run: |
         sudo cp /home/runner/.cargo/bin/rustc rustc.orig
@@ -122,14 +122,14 @@ jobs:
       with:
         prefix-key: "v0-rust-freebsd"
 
-    # Restore original rustc binary
+    # Restore original rustc binary on Ubuntu runner
     - name: Restore rustc binary
       run: |
         mv rustc.orig /home/runner/.cargo/bin/rustc
         echo "## rustc version for Ubuntu runner"
         rustc -vV
 
-    - name: Run sccache-cache
+    - name: Configure sccache
       uses: mozilla-actions/sccache-action@v0.0.3
 
     - name: Prepare, build and test
