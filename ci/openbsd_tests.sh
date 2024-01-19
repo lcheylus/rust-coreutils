@@ -43,17 +43,12 @@ rustc -V
 cargo -V
 cargo nextest --version
 
-# To ensure that files are cleaned up, we don't want to exit on error
-
-set +e
-
 cd "${WORKSPACE}"
 unset FAULT
 export CARGO_TERM_COLOR=always
 
 cargo build || FAULT=1
 
-export PATH=~/.cargo/bin:${PATH}
 export RUST_BACKTRACE=1
 
 if test -z "$FAULT"; then
@@ -63,9 +58,8 @@ if test -z "$FAULT"; then
     cargo nextest run --hide-progress-bar --profile ci --all-features -p uucore || FAULT=1
 fi
 
-# Clean to avoid to rsync back the files
-cargo clean
-
 if test -n "$FAULT"; then
     exit 1
 fi
+
+exit 0
