@@ -395,16 +395,12 @@ fn test_stdin_with_fs_option() {
 #[test]
 #[cfg(all(
     unix,
-<<<<<<< HEAD
     not(any(
         target_os = "android",
         target_os = "macos",
         target_os = "freebsd",
         target_os = "openbsd"
     ))
-=======
-    not(any(target_os = "android", target_os = "macos", target_os = "freebsd", target_os = "openbsd"))
->>>>>>> 4505db812 (tests: disable failed tests for stat on OpenBSD)
 ))]
 fn test_stdin_redirect() {
     // $ touch f && stat - < f
