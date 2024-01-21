@@ -79,6 +79,7 @@ fn test_terse_normal_format() {
 }
 
 #[cfg(unix)]
+#[cfg(not(target_os = "openbsd"))]
 #[test]
 fn test_format_created_time() {
     let args = ["-c", "%w", "/bin"];
@@ -129,6 +130,7 @@ fn test_format_created_seconds() {
 }
 
 #[cfg(unix)]
+#[cfg(not(target_os = "openbsd"))]
 #[test]
 fn test_normal_format() {
     let args = ["-c", NORMAL_FORMAT_STR, "/bin"];
@@ -288,6 +290,7 @@ fn test_date() {
     ts.ucmd().args(&args).succeeds().stdout_is(expected_stdout);
 }
 #[cfg(unix)]
+#[cfg(not(target_os = "openbsd"))]
 #[test]
 fn test_multi_files() {
     let args = [
@@ -318,6 +321,7 @@ fn test_printf() {
 
 #[test]
 #[cfg(unix)]
+#[cfg(not(target_os = "openbsd"))]
 fn test_pipe_fifo() {
     let (at, mut ucmd) = at_and_ucmd!();
     at.mkfifo("FIFO");
