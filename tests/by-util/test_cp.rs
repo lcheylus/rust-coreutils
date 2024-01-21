@@ -18,6 +18,7 @@ use std::io::Write;
 use std::os::unix::fs;
 
 #[cfg(unix)]
+#[cfg(not(target_os = "openbsd"))]
 use std::os::unix::fs::PermissionsExt;
 #[cfg(unix)]
 use std::os::unix::fs::{FileTypeExt, MetadataExt};

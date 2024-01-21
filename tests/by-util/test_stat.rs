@@ -20,6 +20,7 @@ fn test_invalid_option() {
 }
 
 #[cfg(unix)]
+#[cfg(not(target_os = "openbsd"))]
 const NORMAL_FORMAT_STR: &str =
     "%a %A %b %B %d %D %f %F %g %G %h %i %m %n %o %s %u %U %x %X %y %Y %z %Z"; // avoid "%w %W" (birth/creation) due to `stat` limitations and linux kernel & rust version capability variations
 #[cfg(any(target_os = "linux", target_os = "android"))]
