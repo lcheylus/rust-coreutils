@@ -25,7 +25,8 @@ use std::io::{Seek, SeekFrom};
     not(target_vendor = "apple"),
     not(target_os = "android"),
     not(target_os = "windows"),
-    not(target_os = "freebsd")
+    not(target_os = "freebsd"),
+    not(target_os = "openbsd")
 ))]
 use std::path::Path;
 use std::process::Stdio;
@@ -34,7 +35,8 @@ use tail::chunks::BUFFER_SIZE as CHUNK_BUFFER_SIZE;
     not(target_vendor = "apple"),
     not(target_os = "android"),
     not(target_os = "windows"),
-    not(target_os = "freebsd")
+    not(target_os = "freebsd"),
+    not(target_os = "openbsd")
 ))]
 use tail::text;
 
@@ -287,7 +289,8 @@ fn test_follow_redirect_stdin_name_retry() {
     not(target_vendor = "apple"),
     not(target_os = "windows"),
     not(target_os = "android"),
-    not(target_os = "freebsd")
+    not(target_os = "freebsd"),
+    not(target_os = "openbsd")
 ))] // FIXME: for currently not working platforms
 fn test_stdin_redirect_dir() {
     // $ mkdir dir
@@ -1207,7 +1210,8 @@ fn test_retry2() {
     not(target_vendor = "apple"),
     not(target_os = "windows"),
     not(target_os = "android"),
-    not(target_os = "freebsd")
+    not(target_os = "freebsd"),
+    not(target_os = "openbsd")
 ))] // FIXME: for currently not working platforms
 fn test_retry3() {
     // inspired by: gnu/tests/tail-2/retry.sh
@@ -1251,7 +1255,8 @@ fn test_retry3() {
     not(target_vendor = "apple"),
     not(target_os = "windows"),
     not(target_os = "android"),
-    not(target_os = "freebsd")
+    not(target_os = "freebsd"),
+    not(target_os = "openbsd")
 ))] // FIXME: for currently not working platforms
 fn test_retry4() {
     // inspired by: gnu/tests/tail-2/retry.sh
@@ -1308,7 +1313,8 @@ fn test_retry4() {
     not(target_vendor = "apple"),
     not(target_os = "windows"),
     not(target_os = "android"),
-    not(target_os = "freebsd")
+    not(target_os = "freebsd"),
+    not(target_os = "openbsd")
 ))] // FIXME: for currently not working platforms
 fn test_retry5() {
     // inspired by: gnu/tests/tail-2/retry.sh
@@ -1394,7 +1400,8 @@ fn test_retry6() {
     not(target_vendor = "apple"),
     not(target_os = "windows"),
     not(target_os = "android"),
-    not(target_os = "freebsd")
+    not(target_os = "freebsd"),
+    not(target_os = "openbsd")
 ))] // FIXME: for currently not working platforms
 fn test_retry7() {
     // inspired by: gnu/tests/tail-2/retry.sh
@@ -1468,7 +1475,8 @@ fn test_retry7() {
     not(target_vendor = "apple"),
     not(target_os = "windows"),
     not(target_os = "android"),
-    not(target_os = "freebsd")
+    not(target_os = "freebsd"),
+    not(target_os = "openbsd")
 ))] // FIXME: for currently not working platforms
 fn test_retry8() {
     // Ensure that inotify will switch to polling mode if directory
@@ -1536,7 +1544,8 @@ fn test_retry8() {
     not(target_vendor = "apple"),
     not(target_os = "android"),
     not(target_os = "windows"),
-    not(target_os = "freebsd")
+    not(target_os = "freebsd"),
+    not(target_os = "openbsd")
 ))] // FIXME: for currently not working platforms
 fn test_retry9() {
     // inspired by: gnu/tests/tail-2/inotify-dir-recreate.sh
@@ -1617,7 +1626,8 @@ fn test_retry9() {
     not(target_vendor = "apple"),
     not(target_os = "android"),
     not(target_os = "windows"),
-    not(target_os = "freebsd")
+    not(target_os = "freebsd"),
+    not(target_os = "openbsd")
 ))] // FIXME: for currently not working platforms
 fn test_follow_descriptor_vs_rename1() {
     // inspired by: gnu/tests/tail-2/descriptor-vs-rename.sh
@@ -1680,7 +1690,8 @@ fn test_follow_descriptor_vs_rename1() {
     not(target_vendor = "apple"),
     not(target_os = "android"),
     not(target_os = "windows"),
-    not(target_os = "freebsd")
+    not(target_os = "freebsd"),
+    not(target_os = "openbsd")
 ))] // FIXME: for currently not working platforms
 fn test_follow_descriptor_vs_rename2() {
     // Ensure the headers are correct for --verbose.
@@ -1732,7 +1743,8 @@ fn test_follow_descriptor_vs_rename2() {
     not(target_vendor = "apple"),
     not(target_os = "windows"),
     not(target_os = "android"),
-    not(target_os = "freebsd")
+    not(target_os = "freebsd"),
+    not(target_os = "openbsd")
 ))] // FIXME: for currently not working platforms
 fn test_follow_name_retry_headers() {
     // inspired by: "gnu/tests/tail-2/F-headers.sh"
@@ -2066,7 +2078,8 @@ fn test_follow_truncate_fast() {
     not(target_vendor = "apple"),
     not(target_os = "windows"),
     not(target_os = "android"),
-    not(target_os = "freebsd")
+    not(target_os = "freebsd"),
+    not(target_os = "openbsd")
 ))] // FIXME: for currently not working platforms
 fn test_follow_name_move_create1() {
     // This test triggers a move/create event while `tail --follow=name file` is running.
@@ -2121,7 +2134,8 @@ fn test_follow_name_move_create1() {
     not(target_vendor = "apple"),
     not(target_os = "android"),
     not(target_os = "windows"),
-    not(target_os = "freebsd")
+    not(target_os = "freebsd"),
+    not(target_os = "openbsd")
 ))] // FIXME: for currently not working platforms
 fn test_follow_name_move_create2() {
     // inspired by: "gnu/tests/tail-2/inotify-hash-abuse.sh"
@@ -2200,7 +2214,8 @@ fn test_follow_name_move_create2() {
     not(target_vendor = "apple"),
     not(target_os = "windows"),
     not(target_os = "android"),
-    not(target_os = "freebsd")
+    not(target_os = "freebsd"),
+    not(target_os = "openbsd")
 ))] // FIXME: for currently not working platforms
 fn test_follow_name_move1() {
     // This test triggers a move event while `tail --follow=name file` is running.
@@ -2261,7 +2276,8 @@ fn test_follow_name_move1() {
     not(target_vendor = "apple"),
     not(target_os = "windows"),
     not(target_os = "android"),
-    not(target_os = "freebsd")
+    not(target_os = "freebsd"),
+    not(target_os = "openbsd")
 ))] // FIXME: for currently not working platforms
 fn test_follow_name_move2() {
     // Like test_follow_name_move1, but move to a name that's already monitored.
@@ -2348,7 +2364,8 @@ fn test_follow_name_move2() {
     not(target_vendor = "apple"),
     not(target_os = "windows"),
     not(target_os = "android"),
-    not(target_os = "freebsd")
+    not(target_os = "freebsd"),
+    not(target_os = "openbsd")
 ))] // FIXME: for currently not working platforms
 fn test_follow_name_move_retry1() {
     // Similar to test_follow_name_move1 but with `--retry` (`-F`)
@@ -2407,7 +2424,8 @@ fn test_follow_name_move_retry1() {
     not(target_vendor = "apple"),
     not(target_os = "windows"),
     not(target_os = "android"),
-    not(target_os = "freebsd")
+    not(target_os = "freebsd"),
+    not(target_os = "openbsd")
 ))] // FIXME: for currently not working platforms
 fn test_follow_name_move_retry2() {
     // inspired by: "gnu/tests/tail-2/F-vs-rename.sh"
@@ -4425,7 +4443,8 @@ fn test_args_when_directory_given_shorthand_big_f_together_with_retry() {
 #[cfg(all(
     not(target_vendor = "apple"),
     not(target_os = "windows"),
-    not(target_os = "freebsd")
+    not(target_os = "freebsd"),
+    not(target_os = "openbsd")
 ))]
 fn test_follow_when_files_are_pointing_to_same_relative_file_and_file_stays_same_size() {
     let scene = TestScenario::new(util_name!());
