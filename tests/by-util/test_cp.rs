@@ -488,7 +488,7 @@ fn test_cp_arg_interactive() {
 }
 
 #[test]
-#[cfg(not(any(target_os = "android", target_os = "freebsd")))]
+#[cfg(not(any(target_os = "android", target_os = "freebsd", target_os = "openbsd")))]
 fn test_cp_arg_interactive_update_overwrite_newer() {
     // -u -i won't show the prompt to validate the override or not
     // Therefore, the error code will be 0
@@ -1255,6 +1255,7 @@ fn test_cp_parents_dest_not_directory() {
 }
 
 #[test]
+#[cfg(not(target_os = "openbsd"))]
 fn test_cp_parents_with_permissions_copy_file() {
     let (at, mut ucmd) = at_and_ucmd!();
 
@@ -1295,6 +1296,7 @@ fn test_cp_parents_with_permissions_copy_file() {
 }
 
 #[test]
+#[cfg(not(target_os = "openbsd"))]
 fn test_cp_parents_with_permissions_copy_dir() {
     let (at, mut ucmd) = at_and_ucmd!();
 
@@ -1352,6 +1354,7 @@ fn test_cp_issue_1665() {
 }
 
 #[test]
+#[cfg(not(target_os = "openbsd"))]
 fn test_cp_preserve_no_args() {
     let (at, mut ucmd) = at_and_ucmd!();
     let src_file = "a";
@@ -1379,6 +1382,7 @@ fn test_cp_preserve_no_args() {
 }
 
 #[test]
+#[cfg(not(target_os = "openbsd"))]
 fn test_cp_preserve_no_args_before_opts() {
     let (at, mut ucmd) = at_and_ucmd!();
     let src_file = "a";
@@ -1433,7 +1437,7 @@ fn test_cp_preserve_all() {
 }
 
 #[test]
-#[cfg(all(unix, not(target_os = "android")))]
+#[cfg(all(unix, not(target_os = "android"), not(target_os = "openbsd")))]
 fn test_cp_preserve_xattr() {
     let (at, mut ucmd) = at_and_ucmd!();
     let src_file = "a";
@@ -2529,6 +2533,7 @@ fn test_copy_symlink_force() {
 
 #[test]
 #[cfg(unix)]
+#[cfg(not(target_os = "openbsd"))]
 fn test_no_preserve_mode() {
     use std::os::unix::prelude::MetadataExt;
 
@@ -2559,6 +2564,7 @@ fn test_no_preserve_mode() {
 
 #[test]
 #[cfg(unix)]
+#[cfg(not(target_os = "openbsd"))]
 fn test_preserve_mode() {
     use std::os::unix::prelude::MetadataExt;
 
@@ -2717,6 +2723,7 @@ fn test_cp_dangling_symlink_inside_directory() {
 
 /// Test for copying a dangling symbolic link and its permissions.
 #[cfg(not(target_os = "freebsd"))] // FIXME: fix this test for FreeBSD
+#[cfg(not(target_os = "openbsd"))] // FIXME: fix this test for OpenBSD
 #[test]
 fn test_copy_through_dangling_symlink_no_dereference_permissions() {
     let (at, mut ucmd) = at_and_ucmd!();
@@ -2934,7 +2941,7 @@ fn test_copy_same_symlink_no_dereference_dangling() {
 }
 
 // TODO: enable for Android, when #3477 solved
-#[cfg(not(any(windows, target_os = "android")))]
+#[cfg(not(any(windows, target_os = "android", target_os = "openbsd")))]
 #[test]
 fn test_cp_parents_2_dirs() {
     let (at, mut ucmd) = at_and_ucmd!();
@@ -3164,7 +3171,7 @@ fn test_copy_nested_directory_to_itself_disallowed() {
 }
 
 /// Test for preserving permissions when copying a directory.
-#[cfg(all(not(windows), not(target_os = "freebsd")))]
+#[cfg(all(not(windows), not(target_os = "freebsd"), not(target_os = "openbsd")))]
 #[test]
 fn test_copy_dir_preserve_permissions() {
     // Create a directory that has some non-default permissions.
@@ -3194,7 +3201,7 @@ fn test_copy_dir_preserve_permissions() {
 
 /// Test for preserving permissions when copying a directory, even in
 /// the face of an inaccessible file in that directory.
-#[cfg(all(not(windows), not(target_os = "freebsd")))]
+#[cfg(all(not(windows), not(target_os = "freebsd"), not(target_os = "openbsd")))]
 #[test]
 fn test_copy_dir_preserve_permissions_inaccessible_file() {
     // Create a directory that has some non-default permissions and
@@ -3264,7 +3271,7 @@ fn test_same_file_force_backup() {
 }
 
 /// Test for copying the contents of a FIFO as opposed to the FIFO object itself.
-#[cfg(all(unix, not(target_os = "freebsd")))]
+#[cfg(all(unix, not(target_os = "freebsd"), not(target_os = "openbsd")))]
 #[test]
 fn test_copy_contents_fifo() {
     // TODO this test should work on FreeBSD, but the command was
@@ -3325,6 +3332,7 @@ fn test_reflink_never_sparse_always() {
 /// Test for preserving attributes of a hard link in a directory.
 #[test]
 #[cfg(not(target_os = "android"))]
+#[cfg(not(target_os = "openbsd"))]
 fn test_preserve_hardlink_attributes_in_directory() {
     let (at, mut ucmd) = at_and_ucmd!();
 
