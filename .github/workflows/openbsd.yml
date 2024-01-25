@@ -111,6 +111,9 @@ jobs:
           # Further work needs to be done in a sudo as we are changing user
           sudo -E -u tester bash ci/openbsd_tests.sh
 
+          # Change ownership for copyback files from VM to host
+          chown -R root:wheel /root/ "${WORKSPACE_PARENT}"/
+
     - name: Generate Markdown report for tests results
       run: |
         sudo apt-get install -y jq
