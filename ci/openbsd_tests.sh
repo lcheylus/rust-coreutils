@@ -52,10 +52,12 @@ cargo build || FAULT=1
 export RUST_BACKTRACE=1
 
 if test -z "$FAULT"; then
-    cargo nextest run --hide-progress-bar --profile ci --features "${FEATURES}" || FAULT=1
+    # cargo nextest run --hide-progress-bar --profile ci --features "${FEATURES}" || FAULT=1
+    NEXTEST_EXPERIMENTAL_LIBTEST_JSON=1 cargo nextest run --hide-progress-bar --profile ci --features "${FEATURES}" --message-format libtest-json-plus 1> "${WORKSPACE}/tests-unix.json" || FAULT=1
 fi
 if test -z "$FAULT"; then
-    cargo nextest run --hide-progress-bar --profile ci --all-features -p uucore || FAULT=1
+    # cargo nextest run --hide-progress-bar --profile ci --all-features -p uucore || FAULT=1
+    NEXTEST_EXPERIMENTAL_LIBTEST_JSON=1 cargo nextest run --hide-progress-bar --profile ci --all-features -p uucore --message-format libtest-json-plus 1> "${WORKSPACE}/tests-uucore.json" || FAULT=1
 fi
 
 if test -n "$FAULT"; then
