@@ -163,6 +163,11 @@ jobs:
           # Change ownership for copyback files from VM to host
           chown -R root:wheel /root/ "${WORKSPACE_PARENT}"/
 
+    - name: Generate Markdown report for tests results
+      run: |
+        ci/get_tests_results.sh tests-unix.json unix >> $GITHUB_STEP_SUMMARY
+        ci/get_tests_results.sh tests-uucore.json uucore >> $GITHUB_STEP_SUMMARY
+
     - name: Stats for sccache on FreeBSD
       run: |
         echo "# sscache stats"
