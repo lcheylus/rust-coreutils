@@ -30,9 +30,9 @@ do
 done
 
 # xargs used to remove spaces from wc output
-ignored=$(jq -c '.|select(.type=="test" and .event=="ignored")' "$FILE" |wc -l|xargs)
+ignored=$(jq -c '.|select(.type=="test" and .event=="ignored")' "$FILE"|wc -l|xargs)
 
-time=$(jq '.|select(.type=="suite" and .event=="ok") .exec_time' /tmp/test.json|awk '{sum+=$1};END {print sum}')
+time=$(jq '.|select(.type=="suite" and .event=="ok") .exec_time' "$FILE"|awk '{sum+=$1};END {print sum}')
 secs=$(printf "%.0f" "$time")
 
 # Output in Markdown format
@@ -44,7 +44,7 @@ printf "| 🟢 Pass | %d | 0 | %d | %d minutes %d seconds |\n" "$passed" "$ignor
 
 if [ "$ignored" -ne 0 ]; then
     printf "\n#### Tests skipped\n"
-    jq '.|select(.type=="test" and .event=="ignored")| .name' /tmp/test.json |tr '$' ' '| sed -e 's/"//g'|sed -e 's/^/- /'
+    jq '.|select(.type=="test" and .event=="ignored")| .name' "$FILE"|tr '$' ' '| sed -e 's/"//g'|sed -e 's/^/- /'
 fi
 
 echo
