@@ -81,7 +81,7 @@ jobs:
         envs: "STYLE_FAIL_ON_FAULT FEATURES"
         usesh: true
         sync: rsync
-        copyback: false
+        copyback: true
         # install rust (version 1.72.1) from OpenBSD 7.4 release
         prepare: |
           pkg_add -I coreutils curl sudo-1.9.14.2 bash
