@@ -60,6 +60,9 @@ if test -z "$FAULT"; then
     NEXTEST_EXPERIMENTAL_LIBTEST_JSON=1 cargo nextest run --hide-progress-bar --profile ci --all-features -p uucore --message-format libtest-json-plus 1> "${WORKSPACE}/tests-uucore.json" || FAULT=1
 fi
 
+# Clean to avoid to rsync back the files
+cargo clean
+
 if test -n "$FAULT"; then
     exit 1
 fi
