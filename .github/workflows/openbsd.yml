@@ -116,6 +116,5 @@ jobs:
 
     - name: Generate Markdown report for tests results
       run: |
-        sudo apt-get install -y jq
         ci/get_tests_results.sh tests-unix.json unix >> $GITHUB_STEP_SUMMARY
         ci/get_tests_results.sh tests-uucore.json uucore >> $GITHUB_STEP_SUMMARY
