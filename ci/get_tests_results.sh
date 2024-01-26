@@ -24,23 +24,37 @@ fi
 
 passed=0
 
-for n in $(jq '.|select(.type=="suite" and .event=="ok") .passed' "$FILE")
+for n in $(jq '.|select(.type=="suite" and (.event=="ok" or .event=="failed")) .passed' "$FILE")
 do
 	passed=$((passed+n))
 done
 
 # xargs used to remove spaces from wc output
+failed=$(jq -c '.|select(.type=="test" and .event=="failed")' "$FILE"|wc -l|xargs)
 ignored=$(jq -c '.|select(.type=="test" and .event=="ignored")' "$FILE"|wc -l|xargs)
 
-time=$(jq '.|select(.type=="suite" and .event=="ok") .exec_time' "$FILE"|awk '{sum+=$1};END {print sum}')
+time=$(jq '.|select(.type=="suite" and (.event=="ok" or .event=="failed")) .exec_time' "$FILE"|awk '{sum+=$1};END {print sum}')
 secs=$(printf "%.0f" "$time")
+
+status=""
+if [ "$failed" -ne 0 ]; then
+	status="🔴 Fail"
+else
+	status="🟢 Pass"
+fi
 
 # Output in Markdown format
 echo "### Tests results $FEATURE"
 
 echo "| Test result | Passed ✅ | Failed ❌ | Skipped ⏭️  |  Time duration ⏰ |"
-echo "|-------------|-----------|-----------|-------------|------------------|"
-printf "| 🟢 Pass | %d | 0 | %d | %d minutes %d seconds |\n" "$passed" "$ignored" $((secs/60)) $((secs%60))
+echo "|-------------|-----------|-----------|-------------|-------------------|"
+printf "| %s | %d | %d | %d | %d minutes %d seconds |\n" "$status" "$passed" "$failed" "$ignored" $((secs/60)) $((secs%60))
+
+
+if [ "$failed" -ne 0 ]; then
+    printf "\n#### Tests failed\n"
+    jq '.|select(.type=="test" and .event=="failed")| .name' "$FILE"|tr '$' ' '| sed -e 's/"//g'|sed -e 's/#.$//'|sed -e 's/^/- \`/'|sed -e 's/$/\`/'
+fi
 
 if [ "$ignored" -ne 0 ]; then
     printf "\n#### Tests skipped\n"
