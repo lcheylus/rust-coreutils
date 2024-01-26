@@ -44,6 +44,7 @@ cargo -V
 cargo nextest --version
 
 cd "${WORKSPACE}"
+rm -f tests-status
 unset FAULT
 export CARGO_TERM_COLOR=always
 
@@ -63,8 +64,9 @@ fi
 # Clean to avoid to rsync back the files
 cargo clean
 
+# Do not exit for shell with return code 1 => prevent further execution of GH workflow
 if test -n "$FAULT"; then
-    exit 1
+    echo "1" > "${WORKSPACE}/tests-status
 fi
 
-exit 0
+echo "0" > "${WORKSPACE}/tests-status
