@@ -114,6 +114,15 @@ jobs:
           # Change ownership for copyback files from VM to host
           chown -R root:wheel /root/ "${WORKSPACE_PARENT}"/
 
+          # Check tests results
+          if [ -f ${WORKSPACE}/tests-status ] && [ -s ${WORKSPACE}/tests-status ] && [ $(cat ${WORKSPACE}/tests-status) -eq 0 ]; then
+              rm ${WORKSPACE}/tests-status
+              exit 0
+          else
+              rm ${WORKSPACE}/tests-status
+              exit 1
+          fi
+
     - name: Generate Markdown report for tests results
       run: |
         ci/get_tests_results.sh tests-unix.json unix >> $GITHUB_STEP_SUMMARY
