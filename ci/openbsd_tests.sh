@@ -66,7 +66,7 @@ cargo clean
 
 # Do not exit for shell with return code 1 => prevent further execution of GH workflow
 if test -n "$FAULT"; then
-    echo "1" > "${WORKSPACE}/tests-status
+    echo "1" > "${WORKSPACE}"/tests-status
 fi
 
-echo "0" > "${WORKSPACE}/tests-status
+echo "0" > "${WORKSPACE}"/tests-status
