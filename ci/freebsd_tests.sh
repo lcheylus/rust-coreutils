@@ -19,12 +19,12 @@ pw usershow "$(id -u)"
 echo "## install Rust toolchain"
 curl https://sh.rustup.rs -sSf --output rustup.sh
 sh rustup.sh -y -c rustfmt,clippy --profile=minimal -t stable
-. ${HOME}/.cargo/env
+. "${HOME}"/.cargo/env
 rm rustup.sh
 
 # Install nextest
-mkdir -p ${HOME}/.cargo/bin
-curl -LsSf https://get.nexte.st/latest/freebsd | tar zxf - -C ${HOME}/.cargo/bin
+mkdir -p "${HOME}"/.cargo/bin
+curl -LsSf https://get.nexte.st/latest/freebsd | tar zxf - -C "${HOME}"/.cargo/bin
 
 # environment
 echo "## environment"
@@ -41,6 +41,7 @@ cargo -V
 cargo nextest --version
 
 cd "${WORKSPACE}"
+rm -f tests-ok
 unset FAULT
 export CARGO_TERM_COLOR=always
 
@@ -62,8 +63,10 @@ fi
 # Get sccache stats (Rust cache)
 sccache --show-stats > "${WORKSPACE}/sccache-stats.txt" 2>&1
 
+# Do not exit for shell with return code 1 => prevent further execution of GH workflow
 if test -n "$FAULT"; then
-    exit 1
+    exit 0
+else
+    touch "${WORKSPACE}"/tests-ok
+    exit 0
 fi
-
-exit 0
