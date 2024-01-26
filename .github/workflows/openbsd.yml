@@ -121,7 +121,9 @@ jobs:
               exit 1
           fi
 
+    # Always exec this step, excepted if job canceled
     - name: Generate Markdown report for tests results
+      if: success() || failure()
       run: |
         if [ -f tests-unix.json ]; then
             ci/get_tests_results.sh tests-unix.json unix >> $GITHUB_STEP_SUMMARY
