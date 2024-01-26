@@ -76,7 +76,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Prepare, build and test
-      uses: vmactions/openbsd-vm@v1.0.6
+      uses: vmactions/openbsd-vm@v1.0.7
       with:
         envs: "STYLE_FAIL_ON_FAULT FEATURES"
         usesh: true
