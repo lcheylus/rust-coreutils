@@ -44,7 +44,7 @@ cargo -V
 cargo nextest --version
 
 cd "${WORKSPACE}"
-rm -f tests-status
+rm -f tests-ok
 unset FAULT
 export CARGO_TERM_COLOR=always
 
@@ -66,7 +66,12 @@ cargo clean
 
 # Do not exit for shell with return code 1 => prevent further execution of GH workflow
 if test -n "$FAULT"; then
-    echo "1" > "${WORKSPACE}"/tests-status
+    echo "Tests FAILED"
+    echo "## ls -l tests-ok"
+    ls -l "${WORKSPACE}"/tests-ok
 fi
 
-echo "0" > "${WORKSPACE}"/tests-status
+echo "Tests SUCCESS"
+touch "${WORKSPACE}"/tests-ok
+echo "## ls -l tests-status"
+ls -l "${WORKSPACE}"/tests-ok
