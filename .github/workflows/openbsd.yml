@@ -125,5 +125,9 @@ jobs:
 
     - name: Generate Markdown report for tests results
       run: |
-        test -f tests-unix.json && ci/get_tests_results.sh tests-unix.json unix >> $GITHUB_STEP_SUMMARY
-        test -f tests-uucore.json && ci/get_tests_results.sh tests-uucore.json uucore >> $GITHUB_STEP_SUMMARY
+        if [ -f tests-unix.json ]; then
+            ci/get_tests_results.sh tests-unix.json unix >> $GITHUB_STEP_SUMMARY
+        fi
+        if [ -f tests-uucore.json ]; then
+            ci/get_tests_results.sh tests-uucore.json uucore >> $GITHUB_STEP_SUMMARY
+        fi
