@@ -67,8 +67,6 @@ cargo clean
 # Do not exit for shell with return code 1 => prevent further execution of GH workflow
 if test -n "$FAULT"; then
     echo "Tests FAILED"
-    echo "## ls -l tests-ok"
-    ls -l "${WORKSPACE}"/tests-ok
 fi
 
 echo "Tests SUCCESS"
