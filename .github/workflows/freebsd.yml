@@ -171,11 +171,9 @@ jobs:
           chown -R root:wheel /root/ "${WORKSPACE_PARENT}"/
 
           # Check tests results
-          if [ -f ${WORKSPACE}/tests-status ] && [ -s ${WORKSPACE}/tests-status ] && [ $(cat ${WORKSPACE}/tests-status) -eq 0 ]; then
-              rm ${WORKSPACE}/tests-status
+          if [ -f ${WORKSPACE}/tests-ok ]; then
               exit 0
           else
-              rm ${WORKSPACE}/tests-status
               exit 1
           fi
 
