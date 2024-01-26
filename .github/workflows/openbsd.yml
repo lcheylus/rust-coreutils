@@ -116,7 +116,6 @@ jobs:
 
           # Check tests results
           if [ -f ${WORKSPACE}/tests-ok ]; then
-              rm ${WORKSPACE}/tests-ok
               exit 0
           else
               exit 1
