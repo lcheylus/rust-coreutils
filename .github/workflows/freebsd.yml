@@ -64,7 +64,7 @@ jobs:
     #   uses: mozilla-actions/sccache-action@v0.0.3
 
     - name: Prepare, style and lint
-      uses: vmactions/freebsd-vm@v1.0.5
+      uses: vmactions/freebsd-vm@v1.0.6
       with:
         envs: "STYLE_FAIL_ON_FAULT"
         usesh: true
@@ -91,6 +91,13 @@ jobs:
 
           # Change ownership for copyback files from VM to host
           chown -R root:wheel /root/ "${WORKSPACE_PARENT}"/
+
+          # Check tests results
+          if [ -f ${WORKSPACE}/tests-ok ]; then
+              exit 0
+          else
+              exit 1
+          fi
 
   # Job for tests
   test:
@@ -133,7 +140,7 @@ jobs:
       uses: mozilla-actions/sccache-action@v0.0.3
 
     - name: Prepare, build and test
-      uses: vmactions/freebsd-vm@v1.0.5
+      uses: vmactions/freebsd-vm@v1.0.6
       with:
         usesh: true
         sync: rsync
@@ -163,10 +170,24 @@ jobs:
           # Change ownership for copyback files from VM to host
           chown -R root:wheel /root/ "${WORKSPACE_PARENT}"/
 
+          # Check tests results
+          if [ -f ${WORKSPACE}/tests-status ] && [ -s ${WORKSPACE}/tests-status ] && [ $(cat ${WORKSPACE}/tests-status) -eq 0 ]; then
+              rm ${WORKSPACE}/tests-status
+              exit 0
+          else
+              rm ${WORKSPACE}/tests-status
+              exit 1
+          fi
+
     - name: Generate Markdown report for tests results
+      if: success() || failure()
       run: |
-        ci/get_tests_results.sh tests-unix.json unix >> $GITHUB_STEP_SUMMARY
-        ci/get_tests_results.sh tests-uucore.json uucore >> $GITHUB_STEP_SUMMARY
+        if [ -f tests-unix.json ]; then
+            ci/get_tests_results.sh tests-unix.json unix >> $GITHUB_STEP_SUMMARY
+        fi
+        if [ -f tests-uucore.json ]; then
+            ci/get_tests_results.sh tests-uucore.json uucore >> $GITHUB_STEP_SUMMARY
+        fi
 
     - name: Stats for sccache on FreeBSD
       run: |
