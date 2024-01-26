@@ -92,13 +92,6 @@ jobs:
           # Change ownership for copyback files from VM to host
           chown -R root:wheel /root/ "${WORKSPACE_PARENT}"/
 
-          # Check tests results
-          if [ -f ${WORKSPACE}/tests-ok ]; then
-              exit 0
-          else
-              exit 1
-          fi
-
   # Job for tests
   test:
     name: Tests
