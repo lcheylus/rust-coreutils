@@ -31,9 +31,6 @@ jobs:
     timeout-minutes: 90
     strategy:
       fail-fast: false
-    # env:
-    #   SCCACHE_GHA_ENABLED: "true"
-    #   RUSTC_WRAPPER: "sccache"
 
     steps:
     - uses: actions/checkout@v4
@@ -59,9 +56,6 @@ jobs:
         mv rustc.orig /home/runner/.cargo/bin/rustc
         echo "## rustc version for Ubuntu runner"
         rustc -vV
-
-    # - name: Run sccache-cache
-    #   uses: mozilla-actions/sccache-action@v0.0.3
 
     - name: Prepare, style and lint
       uses: vmactions/freebsd-vm@v1.0.6
@@ -130,7 +124,7 @@ jobs:
         rustc -vV
 
     - name: Configure sccache
-      uses: mozilla-actions/sccache-action@v0.0.3
+      uses: mozilla-actions/sccache-action@v0.0.4
 
     - name: Prepare, build and test
       uses: vmactions/freebsd-vm@v1.0.6
@@ -182,5 +176,5 @@ jobs:
 
     - name: Stats for sccache on FreeBSD
       run: |
-        echo "# sscache stats"
+        echo "# sccache stats"
         cat sccache-stats.txt
