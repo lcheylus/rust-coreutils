@@ -18,6 +18,14 @@ uname -a
 echo "## user infos"
 pw usershow "$(id -u)"
 
+# environment
+echo "## environment"
+echo "CI='${CI}'"
+echo "REPO_NAME='${REPO_NAME}'"
+echo "WORKSPACE_PARENT='${WORKSPACE_PARENT}'"
+echo "WORKSPACE='${WORKSPACE}'"
+env | sort
+
 # Install rust toolchain
 echo "## install Rust toolchain"
 curl https://sh.rustup.rs -sSf --output rustup.sh
@@ -29,18 +37,12 @@ rm rustup.sh
 mkdir -p "${HOME}"/.cargo/bin
 curl -LsSf https://get.nexte.st/latest/freebsd | tar zxf - -C "${HOME}"/.cargo/bin
 
-# environment
-echo "## environment"
-echo "CI='${CI}'"
-echo "REPO_NAME='${REPO_NAME}'"
-echo "WORKSPACE_PARENT='${WORKSPACE_PARENT}'"
-echo "WORKSPACE='${WORKSPACE}'"
-env | sort
-
-# tooling info
-printf "\n## tooling info\n"
+# Rust tools infos
+printf "\n## Rust infos\n"
 rustc -vV
+printf "\n## cargo infos\n"
 cargo -vV
+printf "\n## cargo-nextest version\n"
 cargo nextest --version
 
 cd "${WORKSPACE}"
@@ -50,6 +52,7 @@ export CARGO_TERM_COLOR=always
 
 # TODO: fail build if fault in "Style and Lint" job
 
+printf "\n## cargo build\n"
 cargo build || FAULT=1
 
 export RUST_BACKTRACE=1
