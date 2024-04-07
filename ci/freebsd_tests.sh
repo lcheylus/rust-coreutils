@@ -28,6 +28,7 @@ env | sort
 
 # Install rust toolchain
 echo "## install Rust toolchain"
+export CARGO_TERM_COLOR=always
 curl https://sh.rustup.rs -sSf --output rustup.sh
 sh rustup.sh -y -c rustfmt,clippy --profile=minimal -t stable
 . "${HOME}"/.cargo/env
@@ -48,7 +49,6 @@ cargo nextest --version
 cd "${WORKSPACE}"
 rm -f tests-ok
 unset FAULT
-export CARGO_TERM_COLOR=always
 
 # TODO: fail build if fault in "Style and Lint" job
 
