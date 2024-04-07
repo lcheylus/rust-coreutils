@@ -14,8 +14,10 @@ fi
 # Increase the number of file descriptors - See https://github.com/rust-lang/cargo/issues/11435
 ulimit -n 1024
 
-## Info
-# user info
+## Infos
+echo "## OS infos"
+uname -a
+
 echo "## user infos"
 userinfo "$(id -u)"
 
@@ -39,8 +41,8 @@ ls -l "${HOME}"/.cargo/bin
 
 # tooling info
 printf "\n## tooling info\n"
-rustc -V
-cargo -V
+rustc -vV
+cargo -vV
 cargo nextest --version
 
 cd "${WORKSPACE}"
