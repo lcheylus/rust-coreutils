@@ -14,7 +14,10 @@ fi
 # Increase the number of file descriptors - See https://github.com/rust-lang/cargo/issues/11435
 ulimit -n 1024
 
-## Info
+## Infos
+echo "## OS infos"
+uname -a
+
 echo "## user infos"
 userinfo "$(id -u)"
 
@@ -48,8 +51,8 @@ env | sort
 
 # tooling info
 printf "\n## tooling info\n"
-rustc -V
-cargo -V
+rustc -vV
+cargo -vV
 
 # To ensure that files are cleaned up, we don't want to exit on error
 set +e
