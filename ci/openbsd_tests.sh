@@ -39,10 +39,12 @@ curl -LsSf "${LATEST_NEXTEST_URL}" | tar zxf - -C "${HOME}"/.cargo/bin
 printf "# ls -l %s/.cargo/bin\n" "${HOME}"
 ls -l "${HOME}"/.cargo/bin
 
-# tooling info
-printf "\n## tooling info\n"
+# Rust tools infos
+printf "\n## Rust infos\n"
 rustc -vV
+printf "\n## cargo infos\n"
 cargo -vV
+printf "\n## cargo-nextest version\n"
 cargo nextest --version
 
 cd "${WORKSPACE}"
@@ -50,6 +52,7 @@ rm -f tests-ok
 unset FAULT
 export CARGO_TERM_COLOR=always
 
+printf "\n## cargo build\n"
 cargo build || FAULT=1
 
 export RUST_BACKTRACE=1
