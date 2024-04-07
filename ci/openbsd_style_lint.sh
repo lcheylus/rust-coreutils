@@ -50,9 +50,9 @@ echo "UTILITY_LIST='${UTILITY_LIST}'"
 env | sort
 
 # Rust tools infos
-printf "\n## Rust infos\n"
+echo "## Rust infos"
 rustc -vV
-printf "\n## cargo infos\n"
+echo "## cargo infos"
 cargo -vV
 
 # To ensure that files are cleaned up, we don't want to exit on error
@@ -60,7 +60,7 @@ set +e
 unset FAULT
 
 ## cargo fmt testing
-printf "\n## cargo fmt testing\n"
+echo "## cargo fmt testing"
 
 # * convert any errors/warnings to GHA UI annotations; ref: <https://help.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-a-warning-message>
 S=$(cargo fmt -- --check) && printf "%s\n" "$S" || {
