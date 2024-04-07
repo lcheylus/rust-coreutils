@@ -11,7 +11,10 @@ if [ "root" == "$(whoami)" ]; then
     exit 1;
 fi
 
-## Info
+## Infos
+echo "## OS infos"
+uname -a
+
 echo "## user infos"
 pw usershow "$(id -u)"
 
@@ -36,8 +39,8 @@ env | sort
 
 # tooling info
 printf "\n## tooling info\n"
-rustc -V
-cargo -V
+rustc -vV
+cargo -vV
 cargo nextest --version
 
 cd "${WORKSPACE}"
