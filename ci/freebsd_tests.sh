@@ -38,11 +38,11 @@ mkdir -p "${HOME}"/.cargo/bin
 curl -LsSf https://get.nexte.st/latest/freebsd | tar zxf - -C "${HOME}"/.cargo/bin
 
 # Rust tools infos
-printf "\n## Rust infos\n"
+echo "## Rust infos"
 rustc -vV
-printf "\n## cargo infos\n"
+echo "## cargo infos"
 cargo -vV
-printf "\n## cargo-nextest version\n"
+echo "## cargo-nextest version"
 cargo nextest --version
 
 cd "${WORKSPACE}"
@@ -52,7 +52,7 @@ export CARGO_TERM_COLOR=always
 
 # TODO: fail build if fault in "Style and Lint" job
 
-printf "\n## cargo build\n"
+echo "## cargo build"
 cargo build || FAULT=1
 
 export RUST_BACKTRACE=1
