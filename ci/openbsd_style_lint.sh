@@ -36,6 +36,7 @@ esac;
 FAULT_PREFIX=$(echo "${FAULT_TYPE}" | tr '[:lower:]' '[:upper:]')
 
 # determine sub-crate utility list
+export CARGO_TERM_COLOR=always
 UTILITY_LIST="$(./util/show-utils.sh --features "${FEATURES}")"
 CARGO_UTILITY_LIST_OPTIONS="$(for u in ${UTILITY_LIST}; do echo -n "-puu_${u} "; done;)"
 
