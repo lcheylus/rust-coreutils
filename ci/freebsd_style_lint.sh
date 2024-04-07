@@ -20,7 +20,6 @@ pw usershow "$(id -u)"
 
 # Install rust toolchain
 echo "## install Rust toolchain"
-export CARGO_TERM_COLOR=always
 curl https://sh.rustup.rs -sSf --output rustup.sh
 sh rustup.sh -y -c rustfmt,clippy --profile=minimal -t stable
 . ${HOME}/.cargo/env
