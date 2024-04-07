@@ -54,9 +54,10 @@ echo "FAULT_PREFIX='${FAULT_PREFIX}'"
 echo "UTILITY_LIST='${UTILITY_LIST}'"
 env | sort
 
-# tooling info
-printf "\n## tooling info\n"
+# Rust tools infos
+printf "\n## Rust infos\n"
 rustc -vV
+printf "\n## cargo infos\n"
 cargo -vV
 
 unset FAULT
