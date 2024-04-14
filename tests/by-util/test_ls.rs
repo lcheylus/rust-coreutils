@@ -159,7 +159,11 @@ fn test_ls_ordering() {
         .stdout_matches(&Regex::new("some-dir1:\\ntotal 0").unwrap());
 }
 
-#[cfg(all(unix, feature = "df", not(target_os = "freebsd")))]
+#[cfg(all(
+    unix,
+    feature = "df",
+    not(any(target_os = "freebsd", target_os = "openbsd"))
+))]
 fn get_filesystem_type(scene: &TestScenario, path: &Path) -> String {
     let mut cmd = scene.ccmd("df");
     cmd.args(&["-PT"]).arg(path);
