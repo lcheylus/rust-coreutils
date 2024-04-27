@@ -59,7 +59,7 @@ jobs:
     - name: Prepare, style and lint
       uses: vmactions/freebsd-vm@v1.0.7
       with:
-        envs: "STYLE_FAIL_ON_FAULT"
+        envs: "STYLE_FAIL_ON_FAULT FEATURES"
         usesh: true
         sync: rsync
         copyback: true
