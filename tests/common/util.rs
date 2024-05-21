@@ -3895,6 +3895,7 @@ mod tests {
     }
 
     #[cfg(unix)]
+    #[cfg(not(target_os = "openbsd"))]
     #[test]
     fn test_altering_umask() {
         use uucore::mode::get_umask;
