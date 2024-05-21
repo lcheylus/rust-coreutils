@@ -5485,6 +5485,7 @@ mod link_deref {
 // disable these excessive permissions.
 #[test]
 #[cfg(unix)]
+#[cfg(not(target_os = "openbsd"))]
 fn test_dir_perm_race_with_preserve_mode_and_ownership() {
     const SRC_DIR: &str = "src";
     const DEST_DIR: &str = "dest";
