@@ -6050,6 +6050,7 @@ fn test_preserve_attrs_overriding_2() {
 /// Test the behavior of preserving permissions when copying through a symlink
 #[test]
 #[cfg(unix)]
+#[cfg(not(target_os = "openbsd"))]
 fn test_cp_symlink_permissions() {
     let scene = TestScenario::new(util_name!());
     let at = &scene.fixtures;
@@ -6072,6 +6073,7 @@ fn test_cp_symlink_permissions() {
 /// Test the behavior of preserving permissions of parents when copying through a symlink
 #[test]
 #[cfg(unix)]
+#[cfg(not(target_os = "openbsd"))]
 fn test_cp_parents_symlink_permissions_file() {
     let scene = TestScenario::new(util_name!());
     let at = &scene.fixtures;
@@ -6096,6 +6098,7 @@ fn test_cp_parents_symlink_permissions_file() {
 /// a symlink when source is a dir.
 #[test]
 #[cfg(unix)]
+#[cfg(not(target_os = "openbsd"))]
 fn test_cp_parents_symlink_permissions_dir() {
     let scene = TestScenario::new(util_name!());
     let at = &scene.fixtures;
