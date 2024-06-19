@@ -123,7 +123,7 @@ jobs:
         rustc -vV
 
     - name: Configure sccache
-      uses: mozilla-actions/sccache-action@v0.0.4
+      uses: mozilla-actions/sccache-action@v0.0.5
 
     - name: Prepare, build and test
       uses: vmactions/freebsd-vm@v1.0.7
