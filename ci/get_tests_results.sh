@@ -44,7 +44,11 @@ else
 fi
 
 # Output in Markdown format
-echo "### Tests results $FEATURE"
+if [ "$FEATURE" = "uucore" ]; then
+    echo "### Tests results - uucore"
+else
+    echo "### Tests results - feature = $FEATURE"
+fi
 
 echo "| Test result | Passed ✅ | Failed ❌ | Skipped ⏭️  |  Time duration ⏰ |"
 echo "|-------------|-----------|-----------|-------------|-------------------|"
