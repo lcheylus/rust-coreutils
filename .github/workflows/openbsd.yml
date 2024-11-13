@@ -42,9 +42,9 @@ jobs:
         sync: rsync
         copyback: false
         # We need jq to run show-utils.sh and bash to use inline shell string replacement
-        # install rust, rust-rustfmt and rust-clippy (version 1.76.0) from OpenBSD 7.5 release
+        # install rust, rust-rustfmt and rust-clippy (version 1.81.0) from OpenBSD 7.6 release
         prepare: |
-          pkg_add -I coreutils curl sudo-1.9.15.5 jq bash
+          pkg_add -I coreutils curl sudo-1.9.15.5p0 jq bash
           pkg_add -I rust rust-rustfmt rust-clippy
         run: |
           # Code inspired from rustup project https://github.com/rust-lang/rustup/blob/master/.github/workflows/ci.yaml
@@ -82,9 +82,9 @@ jobs:
         usesh: true
         sync: rsync
         copyback: true
-        # install rust (version 1.76.0) from OpenBSD 7.5 release
+        # install rust (version 1.81.0) from OpenBSD 7.6 release
         prepare: |
-          pkg_add -I coreutils curl sudo-1.9.15.5 bash
+          pkg_add -I coreutils curl sudo-1.9.15.5p0 bash
           pkg_add -I rust zstd
         run: |
           # Code inspired from rustup project https://github.com/rust-lang/rustup/blob/master/.github/workflows/ci.yaml
