@@ -58,7 +58,7 @@ jobs:
         rustc -vV
 
     - name: Prepare, style and lint
-      uses: vmactions/freebsd-vm@v1.1.5
+      uses: vmactions/freebsd-vm@v1.1.8
       with:
         envs: "STYLE_FAIL_ON_FAULT FEATURES"
         usesh: true
@@ -127,7 +127,7 @@ jobs:
       uses: mozilla-actions/sccache-action@v0.0.6
 
     - name: Prepare, build and test
-      uses: vmactions/freebsd-vm@v1.1.5
+      uses: vmactions/freebsd-vm@v1.1.8
       with:
         usesh: true
         sync: rsync
