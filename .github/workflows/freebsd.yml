@@ -125,6 +125,8 @@ jobs:
 
     - name: Configure sccache
       uses: mozilla-actions/sccache-action@v0.0.7
+      with:
+        disable_annotations: true
 
     - name: Prepare, build and test
       uses: vmactions/freebsd-vm@v1.1.8
