@@ -5,11 +5,11 @@
 #
 
 cat << EOF
-rustc 1.85.0 (4d91de4e4 2025-02-17)
+rustc 1.85.1 (4eb161250 2025-03-15)
 binary: rustc
-commit-hash: 4d91de4e48198da2e33413efdcd9cd2cc0c46688
-commit-date: 2025-02-17
+commit-hash: 4eb161250e340c8f48f66e2b929ef4a5bed7c181
+commit-date: 2025-03-15
 host: x86_64-unknown-freebsd
-release: 1.85.0
+release: 1.85.1
 LLVM version: 19.1.7
 EOF
