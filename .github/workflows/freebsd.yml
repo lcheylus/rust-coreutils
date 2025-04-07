@@ -37,12 +37,12 @@ jobs:
 
     # Get rustc version (stable) for FreeBSD with fake script
     # Needed for rust-cache action to set cache key
-    - name: Get rust version for FreeBSD
-      run: |
-        sudo cp /home/runner/.cargo/bin/rustc rustc.orig
-        sudo cp ci/fake_rustc_freebsd-stable.sh /home/runner/.cargo/bin/rustc
-        echo "## Fake rustc version for FreeBSD"
-        rustc -vV
+    # - name: Get rust version for FreeBSD
+    #   run: |
+    #     sudo cp /home/runner/.cargo/bin/rustc rustc.orig
+    #     sudo cp ci/fake_rustc_freebsd-stable.sh /home/runner/.cargo/bin/rustc
+    #     echo "## Fake rustc version for FreeBSD"
+    #     rustc -vV
 
     # Action for Rust cache (copy to/from VM via copyback)
     - name: Configure Rust cache
@@ -51,11 +51,11 @@ jobs:
         prefix-key: "v0-rust-freebsd"
 
     # Restore original rustc binary on Ubuntu runner
-    - name: Restore rustc binary
-      run: |
-        mv rustc.orig /home/runner/.cargo/bin/rustc
-        echo "## rustc version for Ubuntu runner"
-        rustc -vV
+    # - name: Restore rustc binary
+    #   run: |
+    #     mv rustc.orig /home/runner/.cargo/bin/rustc
+    #     echo "## rustc version for Ubuntu runner"
+    #     rustc -vV
 
     - name: Prepare, style and lint
       uses: vmactions/freebsd-vm@v1.2.0
@@ -103,12 +103,12 @@ jobs:
 
     # Get rustc version (stable) for FreeBSD with fake script
     # Needed for rust-cache action to set cache key
-    - name: Get rust version for FreeBSD
-      run: |
-        sudo cp /home/runner/.cargo/bin/rustc rustc.orig
-        sudo cp ci/fake_rustc_freebsd-stable.sh /home/runner/.cargo/bin/rustc
-        echo "## Fake rustc version for FreeBSD"
-        rustc -vV
+    # - name: Get rust version for FreeBSD
+    #   run: |
+    #     sudo cp /home/runner/.cargo/bin/rustc rustc.orig
+    #     sudo cp ci/fake_rustc_freebsd-stable.sh /home/runner/.cargo/bin/rustc
+    #     echo "## Fake rustc version for FreeBSD"
+    #     rustc -vV
 
     # Action for Rust cache (copy to/from VM via copyback)
     - name: Configure Rust cache
@@ -117,11 +117,11 @@ jobs:
         prefix-key: "v0-rust-freebsd"
 
     # Restore original rustc binary on Ubuntu runner
-    - name: Restore rustc binary
-      run: |
-        mv rustc.orig /home/runner/.cargo/bin/rustc
-        echo "## rustc version for Ubuntu runner"
-        rustc -vV
+    # - name: Restore rustc binary
+    #   run: |
+    #     mv rustc.orig /home/runner/.cargo/bin/rustc
+    #     echo "## rustc version for Ubuntu runner"
+    #     rustc -vV
 
     - name: Configure sccache
       uses: mozilla-actions/sccache-action@v0.0.7
