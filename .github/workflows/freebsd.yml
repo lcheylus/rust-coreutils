@@ -95,8 +95,8 @@ jobs:
       fail-fast: false
     env:
       mem: 4096
-      SCCACHE_GHA_ENABLED: "true"
-      RUSTC_WRAPPER: "sccache"
+      # SCCACHE_GHA_ENABLED: "true"
+      # RUSTC_WRAPPER: "sccache"
 
     steps:
     - uses: actions/checkout@v4
@@ -123,10 +123,10 @@ jobs:
     #     echo "## rustc version for Ubuntu runner"
     #     rustc -vV
 
-    - name: Configure sccache
-      uses: mozilla-actions/sccache-action@v0.0.9
-      with:
-        disable_annotations: true
+    # - name: Configure sccache
+    #   uses: mozilla-actions/sccache-action@v0.0.9
+    #   with:
+    #     disable_annotations: true
 
     - name: Prepare, build and test
       uses: vmactions/freebsd-vm@v1.2.0
@@ -134,7 +134,8 @@ jobs:
         usesh: true
         sync: rsync
         copyback: true
-        envs: "FEATURES SCCACHE_GHA_ENABLED RUSTC_WRAPPER ACTIONS_CACHE_URL ACTIONS_RUNTIME_TOKEN"
+        # envs: "FEATURES SCCACHE_GHA_ENABLED RUSTC_WRAPPER ACTIONS_CACHE_URL ACTIONS_RUNTIME_TOKEN"
+        envs: "FEATURES"
         prepare: pkg install -y curl sudo bash sccache
         run: |
           # Code inspired from rustup project https://github.com/rust-lang/rustup/blob/master/.github/workflows/ci.yaml
@@ -176,7 +177,7 @@ jobs:
             ci/get_tests_results.sh tests-uucore.json uucore >> $GITHUB_STEP_SUMMARY
         fi
 
-    - name: Stats for sccache on FreeBSD
-      run: |
-        echo "# sccache stats"
-        cat sccache-stats.txt
+    # - name: Stats for sccache on FreeBSD
+    #   run: |
+    #     echo "# sccache stats"
+    #     cat sccache-stats.txt
