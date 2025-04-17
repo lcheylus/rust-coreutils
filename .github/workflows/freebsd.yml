@@ -124,7 +124,7 @@ jobs:
     #     rustc -vV
 
     - name: Configure sccache
-      uses: mozilla-actions/sccache-action@v0.0.7
+      uses: mozilla-actions/sccache-action@v0.0.9
       with:
         disable_annotations: true
 
