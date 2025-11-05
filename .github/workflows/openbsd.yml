@@ -35,17 +35,17 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Prepare, build and test
-      uses: vmactions/openbsd-vm@v1.1.8
+      uses: vmactions/openbsd-vm@v1.2.2
       with:
-        release: "7.7"
+        release: "7.8"
         envs: "STYLE_FAIL_ON_FAULT FEATURES"
         usesh: true
         sync: rsync
         copyback: false
         # We need jq to run show-utils.sh and bash to use inline shell string replacement
-        # install rust, rust-rustfmt and rust-clippy (version 1.86.0) from OpenBSD 7.7 release
+        # install rust, rust-rustfmt and rust-clippy (version 1.90.0) from OpenBSD 7.8 release
         prepare: |
-          pkg_add -I coreutils curl sudo-1.9.16.1p0 jq bash
+          pkg_add -I coreutils curl sudo-1.9.17.2p1 jq bash
           pkg_add -I rust rust-rustfmt rust-clippy
         run: |
           # Code inspired from rustup project https://github.com/rust-lang/rustup/blob/master/.github/workflows/ci.yaml
@@ -77,16 +77,16 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Prepare, build and test
-      uses: vmactions/openbsd-vm@v1.1.8
+      uses: vmactions/openbsd-vm@v1.2.2
       with:
-        release: "7.7"
+        release: "7.8"
         envs: "STYLE_FAIL_ON_FAULT FEATURES"
         usesh: true
         sync: rsync
         copyback: true
-        # install rust (version 1.86.0) from OpenBSD 7.7 release
+        # install rust (version 1.90.0) from OpenBSD 7.8 release
         prepare: |
-          pkg_add -I coreutils curl sudo-1.9.16.1p0 bash
+          pkg_add -I coreutils curl sudo-1.9.17.2p1 bash
           pkg_add -I rust zstd
         run: |
           # Code inspired from rustup project https://github.com/rust-lang/rustup/blob/master/.github/workflows/ci.yaml
