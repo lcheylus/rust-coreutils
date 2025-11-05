@@ -58,9 +58,11 @@ if test -z "$FAULT"; then
     # cargo nextest run --hide-progress-bar --profile ci --features "${FEATURES}" || FAULT=1
     NEXTEST_EXPERIMENTAL_LIBTEST_JSON=1 cargo nextest run --hide-progress-bar --profile ci --features "${FEATURES}" --message-format libtest-json-plus 1> "${WORKSPACE}/tests-unix.json" || FAULT=1
 fi
+# There is no systemd-logind on OpenBSD, so test all features except feat_systemd_logind ( https://github.com/rust-lang/cargo/issues/3126#issuecomment-2523441905 )
 if test -z "$FAULT"; then
-    # cargo nextest run --hide-progress-bar --profile ci --all-features -p uucore || FAULT=1
-    NEXTEST_EXPERIMENTAL_LIBTEST_JSON=1 cargo nextest run --hide-progress-bar --profile ci --all-features -p uucore --message-format libtest-json-plus 1> "${WORKSPACE}/tests-uucore.json" || FAULT=1
+    # cargo nextest run --hide-progress-bar --profile ci --features "\$UUCORE_FEATURES" -p uucore || FAULT=1
+    UUCORE_FEATURES=$(cargo metadata --format-version=1 --no-deps | jq -r '.packages[] | select(.name == "uucore") | .features | keys | .[]' | grep -v "feat_systemd_logind" | paste -s -d "," -)
+    NEXTEST_EXPERIMENTAL_LIBTEST_JSON=1 cargo nextest run --hide-progress-bar --profile ci --features "${UUCORE_FEATURES}" -p uucore --message-format libtest-json-plus 1> "${WORKSPACE}/tests-uucore.json" || FAULT=1
 fi
 
 # Clean to avoid to rsync back the files
