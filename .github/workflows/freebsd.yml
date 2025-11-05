@@ -58,7 +58,7 @@ jobs:
     #     rustc -vV
 
     - name: Prepare, style and lint
-      uses: vmactions/freebsd-vm@v1.2.1
+      uses: vmactions/freebsd-vm@v1.2.5
       with:
         envs: "STYLE_FAIL_ON_FAULT FEATURES"
         usesh: true
@@ -129,7 +129,7 @@ jobs:
     #     disable_annotations: true
 
     - name: Prepare, build and test
-      uses: vmactions/freebsd-vm@v1.2.1
+      uses: vmactions/freebsd-vm@v1.2.5
       with:
         usesh: true
         sync: rsync
