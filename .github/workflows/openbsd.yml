@@ -86,7 +86,7 @@ jobs:
         copyback: true
         # install rust (version 1.90.0) from OpenBSD 7.8 release
         prepare: |
-          pkg_add -I coreutils curl sudo-1.9.17.2p1 bash
+          pkg_add -I coreutils curl jq sudo-1.9.17.2p1 bash
           pkg_add -I rust zstd
         run: |
           # Code inspired from rustup project https://github.com/rust-lang/rustup/blob/master/.github/workflows/ci.yaml
