@@ -106,6 +106,12 @@ jobs:
           echo "## whoami"
           whoami
 
+          echo "## update /etc/hosts for hostname tests"
+          printf "10.0.2.15\topenbsd.my.domain openbsd\n" >> /etc/hosts
+
+          echo "## /etc/hosts"
+          cat /etc/hosts
+
           echo "## create non-root user and log into it"
           useradd -d "/root" -g wheel -c "Coreutils user for tests" -s $(which bash) -p ${PASSWD} tester
           chown -R tester:wheel /root/ "${WORKSPACE_PARENT}"/
