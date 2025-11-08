@@ -21,6 +21,9 @@ uname -a
 echo "## user infos"
 userinfo "$(id -u)"
 
+echo "## hostname"
+hostname
+
 # environment
 echo "## environment"
 echo "CI='${CI}'"
