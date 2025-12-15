@@ -16,7 +16,7 @@ echo "## OS infos"
 uname -a
 
 echo "## user infos"
-userinfo "$(id -u)"
+pw usershow -u "$(id -u)"
 
 # Install rust-stable via rustup
 curl https://sh.rustup.rs -sSf --output rustup.sh

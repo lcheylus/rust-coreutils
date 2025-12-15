@@ -16,7 +16,7 @@ echo "## OS infos"
 uname -a
 
 echo "## user infos"
-userinfo "$(id -u)"
+pw usershow -u "$(id -u)"
 
 echo "## hostname"
 hostname
