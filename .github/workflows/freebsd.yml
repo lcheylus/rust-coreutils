@@ -7,10 +7,12 @@ env:
   STYLE_FAIL_ON_FAULT: true ## (bool) fail the build if a style job contains a fault (error or warning); may be overridden on a per-job basis
 
 on:
-  pull_request:
-  push:
-    branches:
-      - '*'
+  # To run manually workflow
+  workflow_dispatch:
+  # pull_request:
+  # push:
+  #   branches:
+  #     - '*'
 
 permissions:
   contents: read # to fetch code (actions/checkout)
